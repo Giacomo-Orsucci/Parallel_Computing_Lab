@@ -40,5 +40,11 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Benchmark")
     add_compile_options("-ffast-math")
 endif()
 
-add_executable(Seq seq.cpp seq_header.h)
+add_executable(Seq main.cpp ./headers/game.h ./src/seq_game.cpp)
 target_link_libraries(Seq  PRIVATE SFML::Graphics)
+
+add_executable(Parallel main.cpp ./headers/game.h ./src/parallel_game.cpp)
+target_link_libraries(Parallel  PRIVATE SFML::Graphics)
+
+add_executable(Simd main.cpp ./headers/game.h ./src/simd_game.cpp)
+target_link_libraries(Simd  PRIVATE SFML::Graphics)

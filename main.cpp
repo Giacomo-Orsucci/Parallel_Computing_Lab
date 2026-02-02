@@ -2,9 +2,10 @@
 // Created by giacomo on 01/02/26.
 //
 
-#include "seq_header.h"
+
 #include <ctime>
 #include <iostream>
+#include "headers/game.h"
 
 
 int main(int argc, char* argv[]) {
@@ -73,7 +74,7 @@ int main(int argc, char* argv[]) {
 
             // without counting the graphic
             const auto start = std::chrono::high_resolution_clock::now();
-            update_grid(grid, next_grid, ROWS, COLS, SCAN_SIZE);
+            update_grid(grid, next_grid, ROWS, COLS, SCAN_SIZE, THREADS);
             std::swap(grid, next_grid);
 
             const auto end = std::chrono::high_resolution_clock::now();
@@ -92,7 +93,7 @@ int main(int argc, char* argv[]) {
 
             const auto start = std::chrono::high_resolution_clock::now();
 
-            update_grid(grid, next_grid, ROWS, COLS, SCAN_SIZE);
+            update_grid(grid, next_grid, ROWS, COLS, SCAN_SIZE, THREADS);
 
             std::swap(grid, next_grid);
 

@@ -5,18 +5,17 @@ import subprocess
 #Script to execute parallel versions we want to test.
 
 EXECUTABLES = {
-    "Seq": "./cmake-build-benchmark/Seq",
+    "Simd": "./cmake-build-benchmark/Simd",
 }
 
 cell_size = 2
-threads_values = [1]#, 2, 4, 8] #
+threads_values = [8]#, 2, 4, 8] #
 frames = 15000#
 #I'm interested in quadratic sizes, but the code is written to handle also other cases.
 screen_widths = [200]#400,800,1000,1200]#
 screen_heights = [200]#400,800,1000,1200]
 scan_size = 3 #3 is the standard for game of life
 n_experiments = 1 #
-CSV_OUT = "SEQ.csv" #
 gui = False
 
 def run_benchmarks(exe, width, height, frames, n_threads, csv, cell_size, scan_size, gui):
@@ -40,8 +39,8 @@ def run_benchmarks(exe, width, height, frames, n_threads, csv, cell_size, scan_s
 
 def main():
 
-    with open(CSV_OUT, mode="w", newline="") as f:
         for layout, exe in EXECUTABLES.items():
+            CSV_OUT = layout + ".csv"
             for width, height in zip(screen_widths, screen_heights):
                 for n_threads in threads_values if layout != "Sequential" else [1]:
                     for run_id in range(n_experiments):
