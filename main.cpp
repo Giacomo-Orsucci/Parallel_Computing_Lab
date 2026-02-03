@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
     cfg.parse(argc, argv);
     omp_set_num_threads(cfg.THREADS);
 
+
     const unsigned SCREEN_WIDTH = cfg.SCREEN_WIDTH;
     const unsigned SCREEN_HEIGHT = cfg.SCREEN_HEIGHT;
     const int CELL_SIZE = cfg.CELL_SIZE;
@@ -112,7 +113,7 @@ int main(int argc, char* argv[]) {
 
     const double total_ms = std::chrono::duration<double, std::milli>(total_duration_us).count();
 
-    append_csv(cfg, SCREEN_WIDTH, SCREEN_HEIGHT, ROWS, COLS, SCAN_SIZE, FRAMES, THREADS, total_ms);
+    append_csv(cfg, total_ms);
 
     return 0;
 }

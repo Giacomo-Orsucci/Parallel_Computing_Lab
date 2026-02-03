@@ -11,7 +11,7 @@ EXECUTABLES = {
     "Tile": "./cmake-build-benchmark/Tile"
 }
 
-cell_size = 2
+cell_size = 1
 threads_values = [1, 2, 4, 8]
 frames = 15000
 #I'm interested in quadratic sizes, but the code is written to handle also other cases.

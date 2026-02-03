@@ -19,12 +19,14 @@ struct Config {
 
     // this is the parameter to define the cell dimension. The cell dimension is equal
     // to CELL_SIZExCELL_SIZE. If CELL_SIZE is set to 1, the cell is graphically
-    // invisible.
+    // invisible. So, for a graphical execution is suggested a CELL_SIZE = 2 at least.
 
-    int CELL_SIZE = 2;
+    int CELL_SIZE = 1;
 
     int SCREEN_WIDTH = 200;
     int SCREEN_HEIGHT = 200;
+    int ROWS = SCREEN_HEIGHT/CELL_SIZE;
+    int COLS = SCREEN_WIDTH/CELL_SIZE;
     int SCAN_SIZE = 3;
     int FRAMES = 1000;
     int THREADS = 1;
@@ -66,9 +68,10 @@ struct Config {
                 std::cerr << "Unknown argument: " << arg << std::endl;
             }
         }
+        COLS = SCREEN_WIDTH / CELL_SIZE;
+        ROWS = SCREEN_HEIGHT / CELL_SIZE;
     }
-    int COLS = SCREEN_WIDTH / CELL_SIZE;
-    int ROWS = SCREEN_HEIGHT / CELL_SIZE;
+
 };
 
 inline int get_idx(int row, int col, const int COLS) {
@@ -89,7 +92,7 @@ int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const 
 
 void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS);
 
-inline void append_csv(Config cfg, int SCREEN_WIDTH, int SCREEN_HEIGHT, int ROWS, int COLS, int SCAN_SIZE, int FRAMES, int THREADS, const double TIME_MS)
+inline void append_csv(Config cfg, const double TIME_MS)
 {
     auto exist = std::filesystem::exists(cfg.CSV);
 
@@ -100,13 +103,13 @@ inline void append_csv(Config cfg, int SCREEN_WIDTH, int SCREEN_HEIGHT, int ROWS
         cfg.first = false;
     }
 
-    out << SCREEN_WIDTH << ","
-        << SCREEN_HEIGHT << ","
-        << ROWS << ","
-        << COLS << ","
-        << SCAN_SIZE << ","
-        << FRAMES << ","
-        << THREADS << ","
+    out << cfg.SCREEN_WIDTH << ","
+        << cfg.SCREEN_HEIGHT << ","
+        << cfg.ROWS << ","
+        << cfg.COLS << ","
+        << cfg.SCAN_SIZE << ","
+        << cfg.FRAMES << ","
+        << cfg.THREADS << ","
         << TIME_MS << "\n";
 }
 
