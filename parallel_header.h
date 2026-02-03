@@ -75,7 +75,7 @@ inline int get_idx(int row, int col, const int COLS) {
     return row * COLS + col;
 }
 
-void init_grid(std::vector<int>& grid, const int ROWS, const int COLS) {
+void init_grid(std::vector<unsigned char>& grid, const int ROWS, const int COLS) {
 
     for (int i = 0; i < ROWS * COLS; ++i) {
         //to have a 10% possibility of populated cell
@@ -85,7 +85,7 @@ void init_grid(std::vector<int>& grid, const int ROWS, const int COLS) {
     }
 }
 
-inline int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS) {
+inline int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS) {
     int count = 0;
     int radius = SCAN_SIZE/2;
 
@@ -109,7 +109,7 @@ inline int count_neighbors(const std::vector<int>& grid, int r, int c, const int
     return count;
 }
 
-void update_grid(const std::vector<int>& current, std::vector<int>& next, const int ROWS, const int COLS, const int SCAN_SIZE) {
+void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE) {
 
     //this is the core of the simulation because it implements the main rules:
     //1. A live cell with fewer than two live neighbors, dies (underpopulation).

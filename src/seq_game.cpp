@@ -5,7 +5,7 @@
 #include "../headers/game.h"
 #include <vector>
 
-int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS) {
+int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS) {
     int count = 0;
     int radius = SCAN_SIZE/2;
 
@@ -18,6 +18,7 @@ int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_S
             int nc = c + j;
 
             //checks on border
+            //if the row is less than 0, we have to check the last row. Toroidal world, pac-man effect
             if (nr < 0) nr = ROWS - 1;
             else if (nr >= ROWS) nr = 0;
             if (nc < 0) nc = COLS - 1;
@@ -29,7 +30,7 @@ int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_S
     return count;
 }
 
-void update_grid(const std::vector<int>& current, std::vector<int>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS) {
+void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS) {
 
     //this is the core of the simulation because it implements the main rules:
     //1. A live cell with fewer than two live neighbors, dies (underpopulation).

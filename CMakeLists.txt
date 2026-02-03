@@ -48,3 +48,6 @@ target_link_libraries(Parallel  PRIVATE SFML::Graphics)
 
 add_executable(Simd main.cpp ./headers/game.h ./src/simd_game.cpp)
 target_link_libraries(Simd  PRIVATE SFML::Graphics)
+
+add_executable(Tile main.cpp ./headers/game.h ./src/tiled_game.cpp)
+target_link_libraries(Tile  PRIVATE SFML::Graphics)

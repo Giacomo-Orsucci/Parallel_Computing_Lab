@@ -10,7 +10,8 @@
 #include <vector>
 #include <cstdlib>
 #include <string>
-#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
 
 
 
@@ -72,7 +73,7 @@ inline int get_idx(int row, int col, const int COLS) {
     return row * COLS + col;
 }
 
-inline void init_grid(std::vector<int>& grid, const int ROWS, const int COLS) {
+inline void init_grid(std::vector<unsigned char>& grid, const int ROWS, const int COLS) {
 
     for (int i = 0; i < ROWS * COLS; ++i) {
         //to have a 10% possibility of populated cell
@@ -82,9 +83,9 @@ inline void init_grid(std::vector<int>& grid, const int ROWS, const int COLS) {
     }
 }
 
-int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS);
+int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS);
 
-void update_grid(const std::vector<int>& current, std::vector<int>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS);
+void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS);
 
 inline void append_csv(const std::string& CSV, int SCREEN_WIDTH, int SCREEN_HEIGHT, int ROWS, int COLS, int SCAN_SIZE, int FRAMES, int THREADS, const double TIME_MS)
 {

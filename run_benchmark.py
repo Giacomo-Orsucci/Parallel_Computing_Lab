@@ -5,17 +5,20 @@ import subprocess
 #Script to execute parallel versions we want to test.
 
 EXECUTABLES = {
+    "Seq": "./cmake-build-benchmark/Seq",
+    "Parallel": "./cmake-build-benchmark/Parallel",
     "Simd": "./cmake-build-benchmark/Simd",
+    "Tile": "./cmake-build-benchmark/Tile"
 }
 
 cell_size = 2
-threads_values = [8]#, 2, 4, 8] #
-frames = 15000#
+threads_values = [1, 2, 4, 8]
+frames = 15000
 #I'm interested in quadratic sizes, but the code is written to handle also other cases.
-screen_widths = [200]#400,800,1000,1200]#
-screen_heights = [200]#400,800,1000,1200]
+screen_widths = [200,400,800,1000,1200]
+screen_heights = [200,400,800,1000,1200]
 scan_size = 3 #3 is the standard for game of life
-n_experiments = 1 #
+n_experiments = 6 #
 gui = False
 
 def run_benchmarks(exe, width, height, frames, n_threads, csv, cell_size, scan_size, gui):

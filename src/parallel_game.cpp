@@ -5,7 +5,7 @@
 #include "../headers/game.h"
 #include <omp.h>
 
-int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS) {
+int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS) {
     int count = 0;
     int radius = SCAN_SIZE/2;
 
@@ -18,6 +18,7 @@ int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_S
             int nc = c + j;
 
             //checks on border
+            //if the row is less than 0, we have to check the last row. Toroidal world, pac-man effect
             if (nr < 0) nr = ROWS - 1;
             else if (nr >= ROWS) nr = 0;
             if (nc < 0) nc = COLS - 1;
@@ -31,15 +32,15 @@ int count_neighbors(const std::vector<int>& grid, int r, int c, const int SCAN_S
 
 
 
-void update_grid(const std::vector<int>& current, std::vector<int>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS) {
+void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS) {
 
     //this is the core of the simulation because it implements the main rules:
     //1. A live cell with fewer than two live neighbors, dies (underpopulation).
     //2. A live cell with two or three live neighbors stays alive.
     //3. A live cell with more than three live neighbors dies (overpopulation).
     //4. A dead cell with exactly three live neighbors becomes alive (reproduction).
-    omp_set_num_threads(THREADS);
-#pragma omp parallel for default(none) shared(current, next, ROWS, COLS, SCAN_SIZE)
+
+#pragma omp parallel for default(none) shared(current, next, ROWS, COLS, SCAN_SIZE) schedule(static)
     for (int i = 0; i < ROWS; ++i) {
         for (int j = 0; j < COLS; ++j) {
 

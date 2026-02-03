@@ -1,9 +1,11 @@
 //
-// Created by giacomo on 02/02/26.
+// Created by giacomo on 03/02/26.
 //
+
 
 #include "../headers/game.h"
 #include <omp.h>
+#include <algorithm>
 
 __attribute__((always_inline)) //to force inline inside SIMD loop in update_grid
 //implemented with branchless logic to better use SIMD instructions and compiler optimizations
@@ -35,7 +37,7 @@ inline int count_neighbors(const std::vector<unsigned char>& grid, int r, int c,
     return count;
 }
 
-
+//in this version the idea is to do a sort of tiling to improve cache locality
 void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS) {
 
     //this is the core of the simulation because it implements the main rules:
@@ -44,26 +46,32 @@ void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned
     //3. A live cell with more than three live neighbors dies (overpopulation).
     //4. A dead cell with exactly three live neighbors becomes alive (reproduction).
 
+    const int TILE_SIZE = 32;
 
-#pragma omp parallel default(none) shared(current, next, ROWS, COLS, SCAN_SIZE)
+#pragma omp parallel default(none) shared(current, next, ROWS, COLS, SCAN_SIZE, TILE_SIZE)
 
-#pragma for schedule(static)
-    for (int i = 0; i < ROWS; ++i) {
+//collapse(2) necessary to parallelize on the blocks
+    #pragma omp  for collapse(2) schedule(static)
+    for (int ii = 0; ii < ROWS; ii += TILE_SIZE) {
+        for (int jj = 0; jj < COLS; jj += TILE_SIZE) {
 
-#pragma omp simd
-        for (int j = 0; j < COLS; ++j) {
+            //to handle cases without precise multiple of TILE_SIZE
+            int i_end = std::min(ii + TILE_SIZE, ROWS);
+            int j_end = std::min(jj + TILE_SIZE, COLS);
 
-            int neighbors = count_neighbors(current, i, j, SCAN_SIZE, ROWS, COLS);
-            int idx = get_idx(i, j, COLS);
-            int is_alive = current[idx];
+            for (int i = ii; i < i_end; ++i) {
 
-            //branchless logic
-            int birth_survive = (neighbors==3);
+                #pragma omp simd
+                for (int j = jj; j < j_end; ++j) {
 
-            int survive = is_alive & (neighbors==2);
+                    int neighbors = count_neighbors(current, i, j, SCAN_SIZE, ROWS, COLS);
+                    int idx = get_idx(i, j, COLS);
 
-            next[idx] = birth_survive | survive;
-
+                    int is_alive = current[idx];
+                    next[idx] = (neighbors == 3) | (is_alive & (neighbors == 2));
+                }
+            }
         }
     }
+
 }

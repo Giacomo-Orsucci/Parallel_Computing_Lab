@@ -6,11 +6,13 @@
 #include <ctime>
 #include <iostream>
 #include "headers/game.h"
+#include "omp.h"
 
 
 int main(int argc, char* argv[]) {
     Config cfg;
     cfg.parse(argc, argv);
+    omp_set_num_threads(cfg.THREADS);
 
     const unsigned SCREEN_WIDTH = cfg.SCREEN_WIDTH;
     const unsigned SCREEN_HEIGHT = cfg.SCREEN_HEIGHT;
@@ -30,14 +32,15 @@ int main(int argc, char* argv[]) {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     // Memory allocation
-    std::vector<int> grid(ROWS * COLS);
-    std::vector<int> next_grid(ROWS * COLS);
+    std::vector<unsigned char> grid(ROWS * COLS);
+    std::vector<unsigned char> next_grid(ROWS * COLS);
 
     init_grid(grid, ROWS, COLS);
 
     //in this case I explicitly excluded graphics during the benchmark process. Given that the measurement is done only
     //on update_grid, it is not necessary but in this way the process is more clean.
     if (GUI == true) {
+
         // SFML Setup
         sf::RenderWindow window(sf::VideoMode({SCREEN_WIDTH, SCREEN_HEIGHT}), "Game of life");
         window.setFramerateLimit(60);
@@ -110,7 +113,6 @@ int main(int argc, char* argv[]) {
     const double total_ms = std::chrono::duration<double, std::milli>(total_duration_us).count();
 
     append_csv(cfg.CSV, SCREEN_WIDTH, SCREEN_HEIGHT, ROWS, COLS, SCAN_SIZE, FRAMES, THREADS, total_ms);
-
 
     return 0;
 }
