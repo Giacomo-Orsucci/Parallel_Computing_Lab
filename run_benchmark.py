@@ -45,7 +45,7 @@ def main():
         for layout, exe in EXECUTABLES.items():
             CSV_OUT = layout + ".csv"
             for width, height in zip(screen_widths, screen_heights):
-                for n_threads in threads_values if layout != "Sequential" else [1]:
+                for n_threads in threads_values if layout != "Seq" else [1]:
                     for run_id in range(n_experiments):
                         run_benchmarks(exe, width, height, frames, n_threads, CSV_OUT, cell_size, scan_size, gui)
 

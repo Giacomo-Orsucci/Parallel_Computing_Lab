@@ -33,6 +33,8 @@ struct Config {
 
     std::string CSV;
 
+    bool first = true;
+
 
     //Parsing params passed via command line
     void parse(int argc, char* argv[]) {
@@ -87,14 +89,15 @@ int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const 
 
 void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS);
 
-inline void append_csv(const std::string& CSV, int SCREEN_WIDTH, int SCREEN_HEIGHT, int ROWS, int COLS, int SCAN_SIZE, int FRAMES, int THREADS, const double TIME_MS)
+inline void append_csv(Config cfg, int SCREEN_WIDTH, int SCREEN_HEIGHT, int ROWS, int COLS, int SCAN_SIZE, int FRAMES, int THREADS, const double TIME_MS)
 {
-    static bool first = true;
-    std::ofstream out(CSV, std::ios::app);
+    auto exist = std::filesystem::exists(cfg.CSV);
 
-    if (first) {
+    std::ofstream out(cfg.CSV, std::ios::app);
+
+    if (!exist) {
         out << "SCREEN_WIDTH, SCREEN_HEIGHT, ROWS, COLS, SCAN_SIZE, FRAMES, THREADS, time_ms\n";
-        first = false;
+        cfg.first = false;
     }
 
     out << SCREEN_WIDTH << ","

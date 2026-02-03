@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 
     const double total_ms = std::chrono::duration<double, std::milli>(total_duration_us).count();
 
-    append_csv(cfg.CSV, SCREEN_WIDTH, SCREEN_HEIGHT, ROWS, COLS, SCAN_SIZE, FRAMES, THREADS, total_ms);
+    append_csv(cfg, SCREEN_WIDTH, SCREEN_HEIGHT, ROWS, COLS, SCAN_SIZE, FRAMES, THREADS, total_ms);
 
     return 0;
 }
