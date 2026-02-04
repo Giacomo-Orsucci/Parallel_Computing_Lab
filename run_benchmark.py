@@ -13,10 +13,10 @@ EXECUTABLES = {
 
 cell_size = 1
 threads_values = [1, 2, 4, 8]
-frames = 15000
+frames = 5000
 #I'm interested in quadratic sizes, but the code is written to handle also other cases.
-screen_widths = [200,400,800,1000,1200]
-screen_heights = [200,400,800,1000,1200]
+screen_widths = [400,800,1000,1200]
+screen_heights = [400,800,1000,1200]
 scan_size = 3 #3 is the standard for game of life
 n_experiments = 6 #
 gui = False

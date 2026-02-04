@@ -11,8 +11,8 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Xpreprocessor -fopenmp -lomp")
 endif ()
 
-#To use SIMD instructions. Includes -mavx.
 add_compile_options("-mavx2")
+add_compile_options("-mavx")
 
 #From the SFML site for CMake configurations
 include(FetchContent)

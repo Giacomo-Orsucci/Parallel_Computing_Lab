@@ -10,6 +10,7 @@ int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const 
     int radius = SCAN_SIZE/2;
 
     //to scan in a block with dimension SCAN_SIZExSCAN_SIZE around the position
+    //for classic game of life, radius=3
     for (int i = -radius; i <= radius; i++) {
         for (int j = -radius; j <= radius; j++) {
             if (i == 0 && j == 0) continue;
@@ -30,7 +31,7 @@ int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const 
     return count;
 }
 
-void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS) {
+void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE) {
 
     //this is the core of the simulation because it implements the main rules:
     //1. A live cell with fewer than two live neighbors, dies (underpopulation).

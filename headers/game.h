@@ -21,10 +21,10 @@ struct Config {
     // to CELL_SIZExCELL_SIZE. If CELL_SIZE is set to 1, the cell is graphically
     // invisible. So, for a graphical execution is suggested a CELL_SIZE = 2 at least.
 
-    int CELL_SIZE = 1;
+    int CELL_SIZE = 5;
 
-    int SCREEN_WIDTH = 200;
-    int SCREEN_HEIGHT = 200;
+    int SCREEN_WIDTH = 800;
+    int SCREEN_HEIGHT = 800;
     int ROWS = SCREEN_HEIGHT/CELL_SIZE;
     int COLS = SCREEN_WIDTH/CELL_SIZE;
     int SCAN_SIZE = 3;
@@ -90,7 +90,7 @@ inline void init_grid(std::vector<unsigned char>& grid, const int ROWS, const in
 
 int count_neighbors(const std::vector<unsigned char>& grid, int r, int c, const int SCAN_SIZE, const int ROWS, const int COLS);
 
-void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE, const int THREADS);
+void update_grid(const std::vector<unsigned char>& current, std::vector<unsigned char>& next, const int ROWS, const int COLS, const int SCAN_SIZE);
 
 inline void append_csv(Config cfg, const double TIME_MS)
 {
