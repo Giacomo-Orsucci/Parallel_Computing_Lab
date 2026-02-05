@@ -47,6 +47,6 @@ Each version is independent, but implemented including game.h. In detail:
 
 *   src: contains the source files for the different logic implementations (seq_game.cpp, parallel_game.cpp, simd_game.cpp, tiled_game.cpp).
 
-*   root: contains run_benchmark.py to execute the benchmarks and stats_plot.py (if applicable) to analyze the results obtained and written in .csv files.
+*   root: contains run_benchmark.py to execute the benchmarks and stats_plot.py to analyze the results obtained and written in .csv files.
 
 All the files are highly commented to allow the maximum comprehension and possibility of adaptation.
